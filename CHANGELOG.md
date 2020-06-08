@@ -6,4 +6,4 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## 1.0.0 - 2020-06-05
 ### Added
-- Initial release
+- Welcome to Yard Reports, Excel CSV reporting for Sprout Forms.
