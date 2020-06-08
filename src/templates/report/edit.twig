@@ -67,7 +67,10 @@
         }, input) }}
 
         <hr/>
-        <h2> CSV Report options</h2>
+        <h2>{{ 'Advanced' | t('yard-reports') }}</h2>
+        <p><small>Customize the report generation to your needs.</small></p>
+        <hr/>
+        <h3> CSV Report options</h3>
 
         {% set input %}
             {{ forms.select({
