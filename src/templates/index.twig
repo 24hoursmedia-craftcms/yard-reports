@@ -1,0 +1,61 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Yard Reports plugin for Craft CMS 3.x
+ *
+ * Yard Reports index.twig
+ *
+ * @author    24HOURSMEDIA
+ * @copyright Copyright (c) 2020 24HOURSMEDIA
+ * @link      https://en.24hoursmedia.com
+ * @package   YardReports
+ * @since     1.0.0
+ */
+#}
+{% extends '_layouts/elementindex' %}
+{% set title = 'Yard Reports' %}
+{% set elementType = 'twentyfourhoursmedia\\yardreports\\elements\\YardReport' %}
+
+{% block actionButton %}
+
+
+    <div class="buttons">
+        {% set url = actionUrl('yard-reports/reports/new') %}
+        <a id="create-new-form" class="btn submit add icon"
+           href="{{ url }}">{{ "New Report"|t('yard-reports') }}</a>
+
+
+    </div>
+{% endblock %}
+
+{#
+{% extends "_layouts/cp" %}
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("twentyfourhoursmedia\\yardreports\\assetbundles\\yardreports\\YardReportsAsset") %}
+{% do view.registerAssetBundle("twentyfourhoursmedia\\yardreports\\assetbundles\\indexcpsection\\IndexCPSectionAsset") %}
+
+{% set docsUrl = "https://github.com/24hoursmedia-craftcms/yard-reports/yard-reports/blob/master/README.md" %}
+
+{% set title = "Yard Reports" %}
+
+{% set pluginCpUrl = url('yard-reports') %}
+
+{% set iconUrl = view.getAssetManager().getPublishedUrl('@twentyfourhoursmedia/yardreports/assetbundles/indexcpsection/dist', true) ~ '/img/Index-icon.svg' %}
+
+{% set extraPageHeaderHtml %}
+    <div class="buttons">
+        <a href="{{ pluginCpUrl }}" class="btn submit add icon">{{ "Click Me!"|t('yard-reports') }}</a>
+    </div>
+{% endset %}
+
+{% set content %}
+
+    <h2>{{ "Index CP Section body goes here"|t('yard-reports') }}</h2>
+    <img src="{{ iconUrl }}" height="64" width="64" />
+    <p class="textline"></p>
+
+
+
+{% endset %}
+#}

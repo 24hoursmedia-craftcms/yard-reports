@@ -1,0 +1,93 @@
+{% extends "_layouts/cp" %}
+{% import "_includes/forms" as forms %}
+{# sproutIntegration SproutIntegrationService #}
+{# fieldValueTransformer FieldValueTransformerService #}
+{% set title =  isNew ? 'New Yard Report Field' : 'Edit Yard Report Field' %}
+{% set fullPageForm = true %}
+
+{% block header %}
+    <div class="flex flex-nowrap">
+        {{ block('pageTitle') }}
+        {{ block('contextMenu') }}
+    </div>
+    <div class="flex">
+        {{ block('actionButton') }}
+    </div>
+{% endblock %}
+
+{% block actionButton %}
+    <div class="btngroup">
+        <input type="submit" class="btn submit" value="{{ 'Save'|t('app') }}">
+    </div>
+{% endblock %}
+
+{% block content %}
+    {# {{ actionInput('categories/save-category') }} #}
+
+    <div id="fields">
+
+        {% set sourceName = element.sourceFieldName %}
+
+        {{ forms.textField({
+            label: "Column name in reports"|t('yard-reports'),
+            instructions: "If left empty, the original form field name will be used" ~ (sourceName ? " <em>(#{sourceName})</em>"),
+            siteId: element.columnName,
+            id: 'columnName',
+            name: 'columnName',
+            value: element.columnName,
+            errors: element.getErrors('columnName'),
+            first: false,
+            autofocus: true,
+            required: false,
+            maxlength: 128,
+
+                placeholder: sourceName
+
+        }) }}
+
+        {% set fieldOptions = fieldValueTransformer.transformersOptions(element.fieldId) %}
+        {% set input %}
+            {{ forms.select({
+                label: "Transformer"|t('yard-reports'),
+                id: 'transformerHandle',
+                name: 'transformerHandle',
+                options: fieldOptions,
+                value: element.transformerHandle,
+                required: true
+            }) }}
+        {% endset %}
+        {{ forms.field({
+            label: "Transformer"|t('yard-reports'),
+            id: 'transformerHandle',
+            name: 'transformerHandle',
+            options: fieldOptions,
+            value: element.transformerHandle,
+            required: true
+        }, input) }}
+
+
+
+        {% set fieldOptions = sproutIntegration.formFieldsOptions(sproutForm) %}
+        {% set input %}
+            {{ forms.select({
+                label: "Form field"|t('yard-reports'),
+                id: 'fieldId',
+                name: 'fieldId',
+                options: fieldOptions,
+                value: element.fieldId,
+                required: true
+            }) }}
+        {% endset %}
+        {{ forms.field({
+            label: "Form field"|t('yard-reports'),
+            id: 'fieldId',
+            name: 'fieldId',
+            options: fieldOptions,
+            value: element.fieldId,
+            required: true
+        }, input) }}
+
+
+    </div>
+{% endblock %}
+

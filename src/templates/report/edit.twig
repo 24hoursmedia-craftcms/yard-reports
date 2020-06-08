@@ -1,0 +1,251 @@
+{% extends "_layouts/cp" %}
+{% import "_includes/forms" as forms %}
+
+{% set title =  isNew ? 'New Yard Report' : 'Edit Yard Report' %}
+{% set fullPageForm = true %}
+
+{% block header %}
+    <div class="flex flex-nowrap">
+        {{ block('pageTitle') }}
+        {{ block('contextMenu') }}
+    </div>
+    <div class="flex">
+        {{ block('actionButton') }}
+    </div>
+{% endblock %}
+
+{% block actionButton %}
+    <div class="btngroup">
+        <input type="submit" class="btn submit" value="{{ 'Save'|t('app') }}">
+
+
+    </div>
+{% endblock %}
+
+{% block content %}
+    {# {{ actionInput('categories/save-category') }} #}
+
+    <div id="fields">
+        {{ forms.textField({
+            label: "Title"|t('app'),
+            siteId: element.siteId,
+            id: 'title',
+            name: 'title',
+            value: element.title,
+            errors: element.getErrors('title'),
+            first: true,
+            autofocus: true,
+            required: true,
+            maxlength: 255
+        }) }}
+
+        {% set input %}
+            {{ forms.select({
+                label: "Sprout form" | t('yard-reports'),
+                id: 'sproutFormId',
+                name: 'sproutFormId',
+                options: sproutFormOpts,
+                value: element.sproutFormId
+            }) }}
+        {% endset %}
+        {{ forms.field({
+            label: "Sprout form"|t('yard-reports')
+        }, input) }}
+
+        <hr/>
+        {% set input %}
+            {{ forms.lightswitch({
+                on: isNew,
+                id: 'addFieldsOnSave',
+                name: 'addFieldsOnSave',
+                value: 1
+            }, input) }}
+        {% endset %}
+        {{ forms.field({
+            label: "Add fields on save" | t('yard-reports'),
+            instructions: "If you enable this switch now, fields from the form are automically imported into the report using default settings" | t('yard-forms')
+        }, input) }}
+
+        <hr/>
+        <h2> CSV Report options</h2>
+
+        {% set input %}
+            {{ forms.select({
+                label: "CSV export style" | t('yard-reports'),
+                instructions: "The specific flavour the CSV is exported in" | t('yard-forms'),
+                id: 'csvOptsCsvStyle',
+                name: 'csvOptsCsvStyle',
+                options: {
+                    "excel": 'Microsoft Excel readable (example: value1;value2;"long value 3"  )',
+                    "comma": 'Comma separated (example: value1,value2,"long value 3")',
+                    "tab": 'Tab separated (example: value1    ,value2    ,    "long value 3")',
+                },
+                value: element.csvOptions.csvStyle
+            }) }}
+        {% endset %}
+        {{ forms.field({
+            label: "CSV export style" | t('yard-reports'),
+            instructions: "The specific flavour the CSV is exported in" | t('yard-forms')
+        }, input) }}
+
+        {% set input %}
+            {{ forms.lightswitch({
+                on: element.csvOptions.addUtf8Bom,
+                id: 'csvOptsAddUtf8Bom',
+                name: 'csvOptsAddUtf8Bom',
+                value: '1'
+            }, input) }}
+        {% endset %}
+        {{ forms.field({
+            label: "Add UTF8-BOM" | t('yard-reports'),
+            instructions: "Enabling this improves MS Excel's handling of special characters" | t('yard-forms')
+        }, input) }}
+
+        {% set input %}
+            {{ forms.lightswitch({
+                on: element.csvOptions.exportHeaders,
+                id: 'csvOptsExportHeaders',
+                name: 'csvOptsExportHeaders',
+                value: '1'
+            }, input) }}
+        {% endset %}
+        {{ forms.field({
+            label: "Export header row" | t('yard-reports'),
+            instructions: "Export the column names as the first row" | t('yard-forms')
+        }, input) }}
+
+        {% set input %}
+            {{ forms.lightswitch({
+                on: element.csvOptions.showCreatedColumn,
+                id: 'csvOptsShowCreatedColumn',
+                name: 'csvOptsShowCreatedColumn',
+                value: '1'
+            }, input) }}
+        {% endset %}
+        {{ forms.field({
+            label: "Show created column" | t('yard-reports'),
+            instructions: "Shows the form entry submission creation date in the first column" | t('yard-forms')
+        }, input) }}
+
+        {{ forms.textField({
+            label: "Column name for the entry submission creation date" | t('yard-forms'),
+            id: 'csvOptsCreatedColumnName',
+            name: 'csvOptsCreatedColumnName',
+            value: element.csvOptions.createdColumnName,
+            errors: element.csvOptions.getErrors('createdColumnName'),
+            required: true,
+            maxlength: 128
+        }) }}
+
+        {% set input %}
+            {{ forms.lightswitch({
+                on: element.csvOptions.keepNewLines,
+                id: 'csvOptsKeepNewLines',
+                name: 'csvOptsKeepNewLines',
+                value: '1'
+            }, input) }}
+        {% endset %}
+        {{ forms.field({
+            label: "Keep new lines" | t('yard-reports'),
+            instructions: "If enabled, keeps newlines in the export leading to text area cells." | t('yard-forms')
+        }, input) }}
+
+        {{ forms.textField({
+            label: "New line symbol" | t('yard-forms'),
+            instructions: "If 'keep new lines' is disabled, new lines will be represented by this value." | t('yard-forms'),
+            id: 'csvOptsNewLine',
+            name: 'csvOptsNewLine',
+            value: element.csvOptions.newLine,
+            errors: element.csvOptions.getErrors('newLine'),
+            required: true,
+            maxlength: 128
+        }) }}
+
+        {{ forms.textField({
+            label: "Multi value separator" | t('yard-forms'),
+            instructions: "Some cells may contain multiple values (for example in a multi-select checkbox field). These values are separated by:" | t('yard-forms'),
+            id: 'csvOptsMultiValueSeparator',
+            name: 'csvOptsMultiValueSeparator',
+            value: element.csvOptions.multiValueSeparator,
+            errors: element.csvOptions.getErrors('multiValueSeparator'),
+            required: false,
+            maxlength: 4
+        }) }}
+
+        {{ forms.textField({
+            label: "NULL value" | t('yard-forms'),
+            instructions: "If a value is empty (not filled in), it will display as this value in exported csv's:" | t('yard-forms'),
+            id: 'csvOptsNullValue',
+            name: 'csvOptsNullValue',
+            value: element.csvOptions.nullValue,
+            errors: element.csvOptions.getErrors('nullValue'),
+            required: false,
+            maxlength: 128
+        }) }}
+
+        {{ forms.textField({
+            label: "Invalid value" | t('yard-forms'),
+            instructions: "If a value cannot be determined, it will display as this value in exported csv's:" | t('yard-forms'),
+            id: 'csvOptsInvalidValue',
+            name: 'csvOptsInvalidValue',
+            value: element.csvOptions.invalidValue,
+            errors: element.csvOptions.getErrors('invalidValue'),
+            required: false,
+            maxlength: 128
+        }) }}
+
+
+
+        <h3>CSV Date/time output</h3>
+
+        {{ forms.textField({
+            label: "Date format" | t('yard-forms'),
+            instructions: "How dates are formatted, for example: Y-m-d" | t('yard-forms'),
+            id: 'csvOptsDateFormat',
+            name: 'csvOptsDateFormat',
+            value: element.csvOptions.dateFormat,
+            errors: element.csvOptions.getErrors('dateFormat'),
+            required: false,
+            maxlength: 128
+        }) }}
+
+        {{ forms.textField({
+            label: "Time format" | t('yard-forms'),
+            instructions: "How time only is formatted, for example: H:i" | t('yard-forms'),
+            id: 'csvOptsTimeFormat',
+            name: 'ccsvOptsTimeFormat',
+            value: element.csvOptions.timeFormat,
+            errors: element.csvOptions.getErrors('timeFormat'),
+            required: false,
+            maxlength: 128
+        }) }}
+
+        {{ forms.textField({
+            label: "Date time format" | t('yard-forms'),
+            instructions: "How date/times are formatted, for example: Y-m-d H:i:s" | t('yard-forms'),
+            id: 'csvOptsDateTimeFormat',
+            name: 'csvOptsDateTimeFormat',
+            value: element.csvOptions.dateTimeFormat,
+            errors: element.csvOptions.getErrors('dateTimeFormat'),
+            required: false,
+            maxlength: 128
+        }) }}
+
+        <h3>Debug</h3>
+
+        {% set input %}
+            {{ forms.lightswitch({
+                on: element.csvOptions.debug,
+                id: 'csvOptsDebug',
+                name: 'csvOptsDebug',
+                value: '1'
+            }, input) }}
+        {% endset %}
+        {{ forms.field({
+            label: "Debug mode" | t('yard-reports'),
+            instructions: "Debug mode shows some extra info for invalid values and errors" | t('yard-forms')
+        }, input) }}
+
+    </div>
+{% endblock %}
+

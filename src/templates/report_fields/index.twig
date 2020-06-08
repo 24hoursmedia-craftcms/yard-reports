@@ -1,0 +1,25 @@
+{% extends '_layouts/elementindex' %}
+{% do view.registerAssetBundle("twentyfourhoursmedia\\yardreports\\assetbundles\\yardreports\\YardReportsAsset") %}
+
+
+{% set title = 'Yard Report Fields' %}
+{% set elementType = 'twentyfourhoursmedia\\yardreports\\elements\\YardReportField' %}
+{% set showStatusMenu = false %}
+
+
+{% block actionButton %}
+
+{% endblock %}
+
+
+
+
+
+
+
+
+{% if report is defined %}
+    {% js %}
+        window.defaultYardReportId = '{{ report.id }}';
+    {% endjs %}
+{% endif %}

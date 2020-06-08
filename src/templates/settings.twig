@@ -1,0 +1,28 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Yard Reports plugin for Craft CMS 3.x
+ *
+ * Yard Reports Settings.twig
+ *
+ * @author    24HOURSMEDIA
+ * @copyright Copyright (c) 2020 24HOURSMEDIA
+ * @link      https://en.24hoursmedia.com
+ * @package   YardReports
+ * @since     1.0.0
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("twentyfourhoursmedia\\yardreports\\assetbundles\\yardreports\\YardReportsAsset") %}
+
+
+{% block content %}
+
+    <div>
+        View the documentation of YardReports on <a href="https://io.24hoursmedia.com/yard-reports" target="_blank">io.24hoursmedia.com/yard-reports</a>.
+
+    </div>
+
+{% endblock %}
