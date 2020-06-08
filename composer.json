@@ -12,8 +12,8 @@
         "sprout forms"
     ],
     "support": {
-        "docs": "https://github.com/24hoursmedia-craftcms/yard-reports/yard-reports/blob/master/README.md",
-        "issues": "https://github.com/24hoursmedia-craftcms/yard-reports/yard-reports/issues"
+        "docs": "https://io.24hoursmedia.com/yard-reports",
+        "issues": "https://github.com/24hoursmedia-craftcms/yard-reports/issues"
     },
     "license": "MIT",
     "authors": [
