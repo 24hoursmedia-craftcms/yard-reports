@@ -133,7 +133,9 @@ class YardCsvReportGeneratorService extends Component implements YardReportGener
         if (!$field) {
             return null;
         }
-        $value = $item->getFieldValue($field->handle);
+
+        $fields = array_keys($item->fields());
+        $value = in_array($field->handle, $fields) ? $item->getFieldValue($field->handle) : $reportOptions->nullValue;
         $transformerHandle = $yardField->transformerHandle;
         return YardReports::$plugin->fieldValueTransformer->transform(
             $value,
